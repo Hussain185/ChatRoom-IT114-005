@@ -1,0 +1,48 @@
+<table><tr><td> <em>Assignment: </em> IT114 M2 Java-HW</td></tr>
+<tr><td> <em>Student: </em> Mohammad Hussain (msh52)</td></tr>
+<tr><td> <em>Generated: </em> 9/21/2023 4:14:38 PM</td></tr>
+<tr><td> <em>Grading Link: </em> <a rel="noreferrer noopener" href="https://learn.ethereallab.app/homework/IT114-005-F23/it114-m2-java-hw/grade/msh52" target="_blank">Grading</a></td></tr></table>
+<table><tr><td> <em>Instructions: </em> <p><br></p><p><strong>Template Files</strong>&nbsp;You can find all 3 template files in this gist:&nbsp;<a href="https://gist.github.com/MattToegel/fdd2b37fa79a06ace9dd259ac82728b6">https://gist.github.com/MattToegel/fdd2b37fa79a06ace9dd259ac82728b6</a>&nbsp;<br></p><p>Setup steps:</p><ol><li><code>git checkout main</code></li><li><code>git pull origin main</code></li><li><code>git checkout -b M2-Java-HW</code></li></ol><p>You'll have 3 problems to save for this assignment.</p><p>Each problem you're given a template&nbsp;<strong>Do not edit anything in the template except where the comments tell you to</strong>.</p><p>The templates are done in such a way to make it easier to capture the output in a screenshot.</p><p>You'll copy each template into their own separate .java files, immediately git add, git commit these files (you can do it together) so we can capture the difference/changes between the templates and your additions. This part is required for full credit.</p><p>HW steps:</p><ol><li>Open VS Code at the root of your repository folder</li><li>In VS Code create a new folder/directory called M2</li><li>Create 3 new files in this new M2 folder (Problem1.java, Problem2.java, Problem3.java)</li><li>Paste each template into their respective files</li><li><code>git add .</code></li><li><code>git commit -m "adding template baselines</code></li><li>Do the related work (you may do steps 8 and 9 as often as needed or you can do it all at once at the end)</li><li><code>git add .</code></li><li><code>git commit -m "completed hw"</code></li><li>When you're done push the branch<ol><li><code>git push origin M2-Java-HW</code></li></ol></li><li>Create the Pull Request with <b>main</b>&nbsp;as base and&nbsp;<strong>M2-Java-HW</strong>&nbsp;as compare (don't merge/close it yet)</li><li>Create a new file in the M2 folder in VS Code called m2_submission.md</li><li>Fill out the below deliverable items, save the submission, and copy to markdown</li><li>Paste the markdown into the m2_submission.md</li><li>add/commit/push the md file<ol><li><code>git add m2_submission.md</code></li><li><code>git commit -m "adding submission file"</code></li><li><code>git push origin M2-Java-HW</code></li></ol></li><li>Merge the pull request from step 11</li><li>On your local machine sync the changes<ol><li><code>git checkout main</code></li><li><code>git pull origin main</code></li></ol></li><li>Submit the link to the m2_submission.md file from the main branch to Canvas</li></ol><p><br></p></td></tr></table>
+<table><tr><td> <em>Deliverable 1: </em> Problem 1 - Only output Odd values of the Array under "Odds output" </td></tr><tr><td><em>Status: </em> <img width="100" height="20" src="https://user-images.githubusercontent.com/54863474/211707773-e6aef7cb-d5b2-4053-bbb1-b09fc609041e.png"></td></tr>
+<tr><td><table><tr><td> <em>Sub-Task 1: </em> 2 Screenshots: Clearly screenshot the output of Problem 1 showing the data and show the code</td></tr>
+<tr><td><table><tr><td><img width="768px" src="https://firebasestorage.googleapis.com/v0/b/learn-e1de9.appspot.com/o/assignments%2Fmsh52%2F2023-09-21T15.00.38image.png.webp?alt=media&token=8e0dfc57-82ce-488f-895e-c566a977cb4f"/></td></tr>
+<tr><td> <em>Caption:</em> <p>showing the edited code <br></p>
+</td></tr>
+<tr><td><img width="768px" src="https://firebasestorage.googleapis.com/v0/b/learn-e1de9.appspot.com/o/assignments%2Fmsh52%2F2023-09-21T15.02.00image.png.webp?alt=media&token=f3e9ea43-6c82-444e-bac5-92c9df3cb5e8"/></td></tr>
+<tr><td> <em>Caption:</em> <p>showing the output<br></p>
+</td></tr>
+</table></td></tr>
+<tr><td> <em>Sub-Task 2: </em> Describe how you solved the problem</td></tr>
+<tr><td> <em>Response:</em> <p>I use the % operator to check if the reminder of the value<br>is 0 or not, if the reminder is not 0 then the value<br>is odd and it prints that value only after the if statement&nbsp;<br></p><br></td></tr>
+</table></td></tr>
+<table><tr><td> <em>Deliverable 2: </em> Problem 2 - Only output the sum/total of the array values (the number must end in 2 decimal places, if it ends in 1 it must have a 0 at the end) </td></tr><tr><td><em>Status: </em> <img width="100" height="20" src="https://user-images.githubusercontent.com/54863474/211707773-e6aef7cb-d5b2-4053-bbb1-b09fc609041e.png"></td></tr>
+<tr><td><table><tr><td> <em>Sub-Task 1: </em> 2 Screenshots: Clearly screenshot the output of Problem 2 showing the data and show the code</td></tr>
+<tr><td><table><tr><td><img width="768px" src="https://firebasestorage.googleapis.com/v0/b/learn-e1de9.appspot.com/o/assignments%2Fmsh52%2F2023-09-21T15.43.23image.png.webp?alt=media&token=98e0beb1-1a73-41af-ac3d-c388eabef40b"/></td></tr>
+<tr><td> <em>Caption:</em> <p>showing edit code <br></p>
+</td></tr>
+<tr><td><img width="768px" src="https://firebasestorage.googleapis.com/v0/b/learn-e1de9.appspot.com/o/assignments%2Fmsh52%2F2023-09-21T15.41.52image.png.webp?alt=media&token=f4a743fb-1be4-4603-be33-5615276d16c5"/></td></tr>
+<tr><td> <em>Caption:</em> <p>showing output <br></p>
+</td></tr>
+</table></td></tr>
+<tr><td> <em>Sub-Task 2: </em> Describe how you solved the problem</td></tr>
+<tr><td> <em>Response:</em> <p>total logic was done using a for loop, while it&#39;s less than the<br>length of Arry it would go through each value and add it to<br>the total, the total was 0 before the loop started and it would<br>add each element of the arr to the total.<div><br></div><div>to get the two decimal<br>places I used the math.round(total*100)/100.0 this rounds it to the nearest integer.&nbsp; the<br>result is divided by 100.0 to move the decimal point back to the<br>correct position with two decimal places. once that is done the result is<br>assigned back to the total variable, overwriting the original value with the rounded<br>value.</div><br></p><br></td></tr>
+</table></td></tr>
+<table><tr><td> <em>Deliverable 3: </em> Problem 3 - Output the given values as positive under the "Positive Output" message (the data otherwise shouldn't change) </td></tr><tr><td><em>Status: </em> <img width="100" height="20" src="https://user-images.githubusercontent.com/54863474/211707773-e6aef7cb-d5b2-4053-bbb1-b09fc609041e.png"></td></tr>
+<tr><td><table><tr><td> <em>Sub-Task 1: </em> 2 Screenshots: Clearly screenshot the output of Problem 3 showing the data and show the code</td></tr>
+<tr><td><table><tr><td><img width="768px" src="https://firebasestorage.googleapis.com/v0/b/learn-e1de9.appspot.com/o/assignments%2Fmsh52%2F2023-09-21T19.57.52image.png.webp?alt=media&token=bc63394b-deab-4aaf-acaf-0a8f97ed4de2"/></td></tr>
+<tr><td> <em>Caption:</em> <p>showing the edited code <br></p>
+</td></tr>
+<tr><td><img width="768px" src="https://firebasestorage.googleapis.com/v0/b/learn-e1de9.appspot.com/o/assignments%2Fmsh52%2F2023-09-21T19.58.35image.png.webp?alt=media&token=cd4ce584-9876-4a63-9c40-1fa3bc074990"/></td></tr>
+<tr><td> <em>Caption:</em> <p>showing the output <br></p>
+</td></tr>
+</table></td></tr>
+<tr><td> <em>Sub-Task 2: </em> Describe how you solved the problem</td></tr>
+<tr><td> <em>Response:</em> <div>The positive conversion is done using the Math.abs() method, which calculates the absolute<br>value of a numeric value whether it's an integer or a floating-point number.&nbsp;</div><div><br></div><div>the<br>for loop, checks the data type of each element in the input array<br>using instanceof to determine whether it's an Integer, Double, or String.</div><div><br></div><div>If the element<br>is an Integer:</div><div>it casts the element to an Integer using (Integer) arr[x].</div><div>Then, it<br>calculates the absolute value using Math.abs() and stores the result in the output<br>array at the corresponding index. and same goes for other data type as<br>well</div><br></td></tr>
+</table></td></tr>
+<table><tr><td> <em>Deliverable 4: </em> Misc Items </td></tr><tr><td><em>Status: </em> <img width="100" height="20" src="https://user-images.githubusercontent.com/54863474/211707773-e6aef7cb-d5b2-4053-bbb1-b09fc609041e.png"></td></tr>
+<tr><td><table><tr><td> <em>Sub-Task 1: </em> Pull Request URL for M2-Java-HW to main</td></tr>
+<tr><td> <a rel="noreferrer noopener" target="_blank" href="https://github.com/Hussain185/msh52-IT114-005/pull/5">https://github.com/Hussain185/msh52-IT114-005/pull/5</a> </td></tr>
+<tr><td> <em>Sub-Task 2: </em> Talk about what you learned, any issues you had, how you resolve them</td></tr>
+<tr><td> <em>Response:</em> <p>I learned howto write a program that can take a list of different<br>types of numbers and turn them into positive numbers if they aren&#39;t already.<br>It also makes sure the numbers stay the same type and handles cases<br>where it can&#39;t change something to a positive number by saying there&#39;s nothing<br>there.<br></p><br></td></tr>
+</table></td></tr>
+<table><tr><td><em>Grading Link: </em><a rel="noreferrer noopener" href="https://learn.ethereallab.app/homework/IT114-005-F23/it114-m2-java-hw/grade/msh52" target="_blank">Grading</a></td></tr></table>
