@@ -20,7 +20,18 @@ public class Problem1 {
         System.out.println("Odds output:");
         //hint: use the arr variable; don't diretly use the a1-a4 variables
         //TODO add/edit code here
-        
+
+        //msh52
+        //9/21/23
+        //outputting only the add values 
+        int i;
+        for (i = 0; i<arr.length; i++){
+            if (arr[i] % 2 != 0){ //if the reminder is NOT 0 value is odd
+                System.out.print(arr[i]+ ", ");
+            }
+        }
+        System.out.println();
+
         //end add/edit section
         System.out.println();
         System.out.println("End process");

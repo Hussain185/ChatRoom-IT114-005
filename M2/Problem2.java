@@ -22,9 +22,20 @@ public class Problem2 {
         //hint: use the arr variable; don't diretly use the a1-a4 variables
         //TODO add/edit code here
        
+        //msh52
+        //9-21-23
+
+        int i;
+        for (i = 0; i<arr.length; i++){
+            total+=arr[i]; //setting the total/sum of each arry
+        }
+
         //set the double to a string variable
         //TODO ensure rounding is to two decimal places (i.e., 0.10, 0.01, 1.00)
+
+        total = Math.round(total*100)/100.0;
         totalOutput = total+"";
+        
         //end add/edit section
         System.out.println("Total is " + totalOutput);
         System.out.println("End process");

@@ -22,9 +22,32 @@ public class Problem3 {
         Object[] output = new Object[arr.length];
         //hint: use the arr variable; don't diretly use the a1-a4 variables
         //TODO convert each value to positive
+
+        //msh52
+        //9-21-23
+
+        int x;
+        for (x = 0; x < arr.length; x++){
+            if (arr[x] instanceof Integer){
+                Integer val1 = (Integer) arr[x];
+                output[x] = Math.abs(val1);
+            }
+            else if (arr[x] instanceof Double){
+                Double val2 = (Double) arr[x];
+                output[x] = Math.abs(val2);
+            }
+            else if (arr[x] instanceof String){
+                String val3 = (String) arr[x];
+                try{
+                    output[x]=Math.abs(Integer.parseInt(val3));
+                } catch (NumberFormatException e){
+                    output [x] = null;
+                }
+            }
+        }
+
         //set the result to the proper index of the output array
         //hint: don't forget to handle the data types properly, the result datatype should be the same as the original datatype
-        
         //end edit section
 
         StringBuilder sb = new StringBuilder();
