@@ -1,5 +1,3 @@
-package M3;
-
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -132,7 +130,17 @@ public class NumberGuesser4 {
             win();
             pickNewRandom = true;
         } else {
-            System.out.println("That's wrong");
+
+            // change#1: 1.Display higher or lower as a hint after a wrong guess
+            // ask the user to guess higher if the guess is low
+            if (guess < number){
+                System.out.println("Thats wrong. Try Higher.");
+            } 
+            // ask the user to guess higher if the guess is high
+            else{
+                System.out.println("Thats wrong. Try Lower.");
+            }
+
             strikes++;
             if (strikes >= maxStrikes) {
                 lose();
@@ -153,10 +161,28 @@ public class NumberGuesser4 {
         return guess;
     }
 
+    /* change#2: 6. Implement separate save files 
+    based on a "What's your name?" prompt at the start of the game */
+    
+    private String userName = "";
+    // sets user's name
+    private void setUserName(String name){
+        userName = name;
+        // adds user's name to the file
+        fileName = userName +"_NumberGuess.txt";
+    }
+
     public void start() {
         try (Scanner input = new Scanner(System.in);) {
             System.out.println("Welcome to NumberGuesser4.0");
             System.out.println("To exit, type the word 'quit'.");
+
+            // asking user for their name
+            System.out.println("What's your name?");
+            String name = input.nextLine();
+            // calling setPlayername at the start of the game
+            setUserName(name);
+
             loadState();
             do {
                 if (pickNewRandom) {
