@@ -197,7 +197,7 @@ public enum Client {
     protected void sendConnect() throws IOException {
         Payload p = new Payload();
         p.setPayloadType(PayloadType.CONNECT);
-        p.setClientName(clientName);
+        p.setSender(clientName);
         out.writeObject(p);
     }
 
@@ -205,7 +205,7 @@ public enum Client {
         Payload p = new Payload();
         p.setPayloadType(PayloadType.MESSAGE);
         p.setMessage(message);
-        p.setClientName(clientName);
+        p.setSender(clientName);
         out.writeObject(p);
     }
 
@@ -295,10 +295,10 @@ public enum Client {
         switch (p.getPayloadType()) {
             case CONNECT:
                 if (!userList.containsKey(p.getClientId())) {
-                    userList.put(p.getClientId(), p.getClientName());
+                    userList.put(p.getClientId(), p.getSender());
                 }
                 System.out.println(String.format("*%s %s*",
-                        p.getClientName(),
+                        p.getSender(),
                         p.getMessage()));
                 break;
             case DISCONNECT:
@@ -309,12 +309,12 @@ public enum Client {
                     myClientId = Constants.DEFAULT_CLIENT_ID;
                 }
                 System.out.println(String.format("*%s %s*",
-                        p.getClientName(),
+                        p.getSender(),
                         p.getMessage()));
                 break;
             case SYNC_CLIENT:
                 if (!userList.containsKey(p.getClientId())) {
-                    userList.put(p.getClientId(), p.getClientName());
+                    userList.put(p.getClientId(), p.getSender());
                 }
                 break;
             case MESSAGE:

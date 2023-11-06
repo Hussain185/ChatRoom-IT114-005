@@ -74,7 +74,7 @@ public enum Server {
                         if (ic != null) {
                             // wait for the thread to start and for the client to send the client name
                             // (username)
-                            if (ic.isRunning() && ic.getClientName() != null) {
+                            if (ic.isRunning() && ic.getName() != null) {
                                 handleIncomingClient(ic);
                                 incomingClients.poll();
                             }
@@ -123,10 +123,10 @@ public enum Server {
         Room oldRoom = client.getCurrentRoom();
         if (newRoom != null && roomName != null) {
             if (oldRoom != null && oldRoom != newRoom) {
-                logger.info(String.format("Client %s leaving old room %s", client.getClientName(), oldRoom.getName()));
+                logger.info(String.format("Client %s leaving old room %s", client.getName(), oldRoom.getName()));
                 oldRoom.removeClient(client);
             }
-            logger.info(String.format("Client %s joining new room %s", client.getClientName(), newRoom.getName()));
+            logger.info(String.format("Client %s joining new room %s", client.getName(), newRoom.getName()));
             newRoom.addClient(client);
             return true;
         }

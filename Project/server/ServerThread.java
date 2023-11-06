@@ -17,7 +17,7 @@ import Project.common.RoomResultPayload;
  */
 public class ServerThread extends Thread {
     private Socket client;
-    private String clientName;
+    private String sender;
     private boolean isRunning = false;
     private ObjectOutputStream out;// exposed here for send()
     // private Server server;// ref to our server so we can call methods on it
@@ -46,16 +46,21 @@ public class ServerThread extends Thread {
 
     }
 
-    protected void setClientName(String name) {
-        if (name == null || name.isBlank()) {
+    //msh52
+    //11/6/2023
+    //payload sender
+
+    protected void setSender (String name){
+        if (name == null || name.isBlank()){
             logger.warning("Invalid name being set");
             return;
         }
-        clientName = name;
+        sender = name;
     }
 
-    public String getClientName() {
-        return clientName;
+
+    public String getSender() {
+        return sender;
     }
 
     protected synchronized Room getCurrentRoom() {
@@ -71,7 +76,7 @@ public class ServerThread extends Thread {
     }
 
     public void disconnect() {
-        sendConnectionStatus(myClientId, getClientName(), false);
+        sendConnectionStatus(myClientId, getSender(), false);
         logger.info("Thread being disconnected by server");
         isRunning = false;
         cleanup();
@@ -106,7 +111,7 @@ public class ServerThread extends Thread {
         Payload p = new Payload();
         p.setPayloadType(PayloadType.SYNC_CLIENT);
         p.setClientId(clientId);
-        p.setClientName(clientName);
+        p.setSender(clientName);
         return send(p);
     }
 
@@ -135,7 +140,7 @@ public class ServerThread extends Thread {
         Payload p = new Payload();
         p.setPayloadType(isConnected ? PayloadType.CONNECT : PayloadType.DISCONNECT);
         p.setClientId(clientId);
-        p.setClientName(who);
+        p.setSender(who);
         p.setMessage(String.format("%s the room %s", (isConnected ? "Joined" : "Left"), currentRoom.getName()));
         return send(p);
     }
@@ -191,7 +196,7 @@ public class ServerThread extends Thread {
     void processPayload(Payload p) {
         switch (p.getPayloadType()) {
             case CONNECT:
-                setClientName(p.getClientName());
+                setSender(p.getSender());
                 break;
             case DISCONNECT:
                 Room.disconnectClient(this, getCurrentRoom());

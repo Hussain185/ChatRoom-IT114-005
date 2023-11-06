@@ -77,7 +77,7 @@ public class Room implements AutoCloseable {
                 continue;// don't sync ourselves
             }
             boolean messageSent = client.sendExistingClient(existingClient.getClientId(),
-                    existingClient.getClientName());
+                    existingClient.getSender());
             if (!messageSent) {
                 handleDisconnect(iter, existingClient);
                 break;// since it's only 1 client receiving all the data, break if any 1 send fails
@@ -208,7 +208,7 @@ public class Room implements AutoCloseable {
             ServerThread receivingClient = iter.next();
             boolean messageSent = receivingClient.sendConnectionStatus(
                     sender.getClientId(),
-                    sender.getClientName(),
+                    sender.getSender(),
                     isConnected);
             if (!messageSent) {
                 handleDisconnect(iter, receivingClient);
@@ -218,8 +218,8 @@ public class Room implements AutoCloseable {
 
     private void handleDisconnect(Iterator<ServerThread> iter, ServerThread client) {
         iter.remove();
-        logger.info(String.format("Removed client %s", client.getClientName()));
-        sendMessage(null, client.getClientName() + " disconnected");
+        logger.info(String.format("Removed client %s", client.getSender()));
+        sendMessage(null, client.getSender() + " disconnected");
         checkClients();
     }
 

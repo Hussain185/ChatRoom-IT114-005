@@ -22,14 +22,14 @@ public class Payload implements Serializable {
     /**
      * Who the payload is from
      */
-    private String clientName;
+    private String sender;
 
-    public String getClientName() {
-        return clientName;
+    public String getSender() {
+        return sender;
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 
     private long clientId;
@@ -58,7 +58,7 @@ public class Payload implements Serializable {
     @Override
     public String toString() {
         return String.format("Type[%s],ClientId[%s,] ClientName[%s], Message[%s]", getPayloadType().toString(),
-                getClientId(), getClientName(),
+                getClientId(), getSender(),
                 getMessage());
     }
 }
