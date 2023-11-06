@@ -241,8 +241,8 @@ public class ServerThread extends Thread {
                     // calls flip command
                     Flip();
                 } else {
-
                     currentRoom.sendMessage(this, p.getMessage());
+                }
                 } else {
                     logger.log(Level.INFO, "Migrating to lobby on message with null room");
                     Room.joinRoom(Constants.LOBBY, this);
