@@ -165,6 +165,26 @@ public class ServerThread extends Thread {
         }
     }
 
+    //msh52
+    //11/6/2023
+    // processMesssgae 
+    private String textStyles(String message) {
+    // red
+        message = message.replaceAll("==red (.*?)==", "[COLOR=red]$1[/COLOR]");
+        // green
+        message = message.replaceAll("==green (.*?)==", "[COLOR=green]$1[/COLOR]");
+        // blue
+         message = message.replaceAll("==blue (.*?)==", "[COLOR=blue]$1[/COLOR]");
+        // bold
+        message = message.replaceAll("\\*\\*(.*?)\\*\\*", "[B]$1[/B]");
+        // italics
+        message = message.replaceAll("-(.*?)-", "[I]$1[/I]");
+        //underline
+        message = message.replaceAll("__(.*?)__", "[U]$1[/U]");
+
+        return message;
+    }
+
     // end send methods
     @Override
     public void run() {
@@ -193,7 +213,7 @@ public class ServerThread extends Thread {
         }
     }
 
-    void processPayload(Payload p) {
+    private void processPayload(Payload p) {
         switch (p.getPayloadType()) {
             case CONNECT:
                 setSender(p.getSender());
@@ -202,14 +222,34 @@ public class ServerThread extends Thread {
                 Room.disconnectClient(this, getCurrentRoom());
                 break;
             case MESSAGE:
-                if (currentRoom != null) {
+            // TODO migrate to lobby
+
+            if (currentRoom != null) {
+                //msh52
+                //11/6/2023
+                //gets the message from the object p
+                //removes any extra spaces at the beginning/end with trim()
+                //handles with the processMessage()  
+                //storing result in message variable.
+                String message = textStyles(p.getMessage().trim());
+                // check if its /rolls
+                if (message.startsWith("/roll ")) {
+                    //calls the RollCommand
+                    Roll(message.substring(6), this);
+                    // if not /roll check for / flip
+                } else if (message.equalsIgnoreCase("/flip")) {
+                    // calls flip command
+                    Flip();
+                } else {
+
                     currentRoom.sendMessage(this, p.getMessage());
                 } else {
-                    // TODO migrate to lobby
                     logger.log(Level.INFO, "Migrating to lobby on message with null room");
                     Room.joinRoom(Constants.LOBBY, this);
                 }
                 break;
+
+                
             case GET_ROOMS:
                 Room.getRooms(p.getMessage().trim(), this);
                 break;
@@ -238,4 +278,74 @@ public class ServerThread extends Thread {
         }
         logger.info("Thread cleanup() complete");
     }
+    // handels flip command from client
+    private void Flip() {
+        // randomly genrates 0 or 1
+        int result = Math.random() < 0.5 ? 0 : 1; 
+        // if 0 then its heads if 1 then its tails
+        String resultMessage = (result == 0) ? "Heads" : "Tails";
+        // sends the result to all cients
+        currentRoom.broadcastMessage(resultMessage);
+    }
+
+    // hadles roll command from client
+    private void Roll(String command, ServerThread client) {
+        // if command have "-" format 1 will be invoked
+        if (command.contains("-")) {
+            RollFormat1(command, this);
+        // if not, but have "d" invokes Format 2
+        } else if (command.contains("d")) {
+            RollFormat2(command, this);
+        }
+    }
+    
+    private void RollFormat1(String rollCommand, ServerThread client) {
+        
+        // array will have two elements:
+        
+        String[] parts = rollCommand.split("-");
+        if (parts.length == 2) {
+            // takes the lowe and upper int vals from roll command
+            int lowerint = Integer.parseInt(parts[0].trim());
+            int upperint = Integer.parseInt(parts[1].trim());
+            // makes a random number withing the lower and upper int range
+            if (lowerint < upperint) {
+                int result = lowerint + (int) (Math.random() * (upperint - lowerint + 1));
+                // result 
+                String resultMessage = "Dice roll result: " + result;
+                // sends the result to all client in the room
+                currentRoom.broadcastMessage(resultMessage);
+            }
+        }
+    }
+    
+    private void RollFormat2(String rollCommand, ServerThread client) {
+        // array will have two elements:
+        
+        String[] parts = rollCommand.split("d");
+        if (parts.length == 2) {
+            // takes the number of dice and side
+            int numDice = Integer.parseInt(parts[0].trim());
+            int numSides = Integer.parseInt(parts[1].trim());
+            if (numDice > 0 && numSides > 0) {
+                // result message 
+                StringBuilder resultMessage = new StringBuilder("Dice roll results: ");
+                for (int i = 0; i < numDice; i++) {
+                    // genarates a random number
+                    int result = 1 + (int) (Math.random() * numSides);
+                    // adds result to the result messgae
+                    resultMessage.append(result);
+                    if (i < numDice - 1) {
+                        // adds comma in the answer
+                        resultMessage.append(", ");
+                    }
+                }
+                // sends the result to all client in the room
+                currentRoom.broadcastMessage(resultMessage.toString());
+            }
+        }
+    }
+    
+    
+    
 }
