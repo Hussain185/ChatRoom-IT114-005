@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -147,8 +148,8 @@ public enum Server {
         } else {
             // TODO, all non-lobby rooms will be games
             // Room room = new Room(roomName); //chatroom project can just use regular rooms
-            GameRoom room = new GameRoom(roomName); // all other projects
-            rooms.add(room);
+            Collection<? extends Room> room = (Collection<? extends Room>) new GameRoom(roomName); // all other projects
+            rooms.addAll(room);
             logger.info(String.format("Created new room %s", roomName));
             return true;
         }
