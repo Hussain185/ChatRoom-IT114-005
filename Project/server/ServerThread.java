@@ -46,18 +46,17 @@ public class ServerThread extends Thread {
 
     }
 
-    //msh52
+    // msh52
     //11/6/2023
-    //payload sender
+    // Paylod sender
 
-    protected void setSender (String name){
-        if (name == null || name.isBlank()){
+    protected void setSender(String name) {
+        if (name == null || name.isBlank()) {
             logger.warning("Invalid name being set");
             return;
         }
         sender = name;
     }
-
 
     public String getSender() {
         return sender;
@@ -107,11 +106,11 @@ public class ServerThread extends Thread {
         return send(payload);
     }
 
-    public boolean sendExistingClient(long clientId, String clientName) {
+    public boolean sendExistingClient(long clientId, String sender) {
         Payload p = new Payload();
         p.setPayloadType(PayloadType.SYNC_CLIENT);
         p.setClientId(clientId);
-        p.setSender(clientName);
+        p.setSender(sender);
         return send(p);
     }
 
@@ -164,26 +163,28 @@ public class ServerThread extends Thread {
             return true;// true since it's likely pending being opened
         }
     }
-
-    //msh52
-    //11/6/2023
-    // processMesssgae 
-    private String textStyles(String message) {
-    // red
-        message = message.replaceAll("==red (.*?)==", "[COLOR=red]$1[/COLOR]");
-        // green
-        message = message.replaceAll("==green (.*?)==", "[COLOR=green]$1[/COLOR]");
-        // blue
-         message = message.replaceAll("==blue (.*?)==", "[COLOR=blue]$1[/COLOR]");
-        // bold
-        message = message.replaceAll("\\*\\*(.*?)\\*\\*", "[B]$1[/B]");
-        // italics
-        message = message.replaceAll("-(.*?)-", "[I]$1[/I]");
-        //underline
-        message = message.replaceAll("__(.*?)__", "[U]$1[/U]");
-
-        return message;
-    }
+    
+        //msh52
+        //11/6/2023
+        // processMesssgae 
+        private String textStyles(String message) {
+            // red
+            message = message.replaceAll("==red (.*?)==", "[COLOR=red]$1[/COLOR]");
+            // green
+            message = message.replaceAll("==green (.*?)==", "[COLOR=green]$1[/COLOR]");
+            // blue
+            message = message.replaceAll("==blue (.*?)==", "[COLOR=blue]$1[/COLOR]");
+    
+            // bold
+            message = message.replaceAll("\\*\\*(.*?)\\*\\*", "[B]$1[/B]");
+            // italics
+            message = message.replaceAll("-(.*?)-", "[I]$1[/I]");
+            //underline
+            message = message.replaceAll("__(.*?)__", "[U]$1[/U]");
+    
+            return message;
+        }
+    
 
     // end send methods
     @Override
@@ -241,15 +242,16 @@ public class ServerThread extends Thread {
                     // calls flip command
                     Flip();
                 } else {
-                    currentRoom.sendMessage(this, p.getMessage());
+                    currentRoom.sendMessage(this, message);
                 }
-                } else {
-                    logger.log(Level.INFO, "Migrating to lobby on message with null room");
-                    Room.joinRoom(Constants.LOBBY, this);
-                }
+            } else {
+                logger.log(Level.INFO, "Migrating to lobby on message with null room");
+                Room.joinRoom(Constants.LOBBY, this);
+            }
                 break;
-
-                
+        
+            
+        
             case GET_ROOMS:
                 Room.getRooms(p.getMessage().trim(), this);
                 break;
@@ -269,6 +271,11 @@ public class ServerThread extends Thread {
 
     }
 
+   
+
+    /**
+     * 
+     */
     private void cleanup() {
         logger.info("Thread cleanup() start");
         try {
@@ -287,7 +294,6 @@ public class ServerThread extends Thread {
         // sends the result to all cients
         currentRoom.broadcastMessage(resultMessage);
     }
-
     // hadles roll command from client
     private void Roll(String command, ServerThread client) {
         // if command have "-" format 1 will be invoked
@@ -298,6 +304,7 @@ public class ServerThread extends Thread {
             RollFormat2(command, this);
         }
     }
+    
     
     private void RollFormat1(String rollCommand, ServerThread client) {
         
@@ -349,3 +356,6 @@ public class ServerThread extends Thread {
     
     
 }
+    
+
+    

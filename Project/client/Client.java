@@ -27,7 +27,7 @@ public enum Client {
     boolean isRunning = false;
     private Thread inputThread;
     private Thread fromServerThread;
-    private String clientName = "";
+    private String sender = "";
     private long myClientId = Constants.DEFAULT_CLIENT_ID;
     private static Logger logger = Logger.getLogger(Client.class.getName());
 
@@ -103,8 +103,8 @@ public enum Client {
         if (text.startsWith("/name")) {
             String[] parts = text.split(" ");
             if (parts.length >= 2) {
-                clientName = parts[1].trim();
-                System.out.println("Name set to " + clientName);
+                sender = parts[1].trim();
+                System.out.println("Name set to " + sender);
             }
             return true;
         }
@@ -123,7 +123,7 @@ public enum Client {
     @Deprecated // removing in Milestone3
     private boolean processClientCommand(String text) throws IOException {
         if (isConnection(text)) {
-            if (clientName.isBlank()) {
+            if (sender.isBlank()) {
                 System.out.println("You must set your name before you can connect via: /name your_name");
                 return true;
             }
@@ -197,7 +197,7 @@ public enum Client {
     protected void sendConnect() throws IOException {
         Payload p = new Payload();
         p.setPayloadType(PayloadType.CONNECT);
-        p.setSender(clientName);
+        p.setSender(sender);
         out.writeObject(p);
     }
 
@@ -205,7 +205,7 @@ public enum Client {
         Payload p = new Payload();
         p.setPayloadType(PayloadType.MESSAGE);
         p.setMessage(message);
-        p.setSender(clientName);
+        p.setSender(sender);
         out.writeObject(p);
     }
 
@@ -276,7 +276,7 @@ public enum Client {
         fromServerThread.start();// start the thread
     }
 
-    protected String getClientNameById(long id) {
+    protected String getSenderById(long id) {
         if (userList.containsKey(id)) {
             return userList.get(id);
         }
@@ -319,7 +319,7 @@ public enum Client {
                 break;
             case MESSAGE:
                 System.out.println(String.format("%s: %s",
-                        getClientNameById(p.getClientId()),
+                        getSenderById(p.getClientId()),
                         p.getMessage()));
                 break;
             case CLIENT_ID:
