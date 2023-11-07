@@ -232,7 +232,6 @@ public class Room implements AutoCloseable {
     public void broadcastMessage(String message) {
         for (ServerThread client : clients) {
             client.sendMessage(client.getClientId(), message);
-
         }
     }
 }

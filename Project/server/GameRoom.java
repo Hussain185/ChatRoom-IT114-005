@@ -1,10 +1,14 @@
 package Project.server;
 
-public class GameRoom extends Room {
+public class GameRoom {
+    private String name;
 
-    public GameRoom(String name) {
-        super(name);
-        // TODO Auto-generated constructor stub
+    public GameRoom(String roomName) {
+        this.name = roomName;
+    }
+
+    public String getName() {
+        return name;
     }
 
 }
