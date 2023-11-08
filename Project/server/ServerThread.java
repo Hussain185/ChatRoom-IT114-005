@@ -287,7 +287,7 @@ public class ServerThread extends Thread {
         }
         logger.info("Thread cleanup() complete");
     }
-    // handels flip command from client
+    // handles flip command from client
     private void Flip() {
         // randomly genrates 0 or 1
         int result = Math.random() < 0.5 ? 0 : 1; 
@@ -296,7 +296,7 @@ public class ServerThread extends Thread {
         // sends the result to all cients
         currentRoom.broadcastMessage(resultMessage);
     }
-    // hadles roll command from client
+    // handles roll command from client
     private void Roll(String command, ServerThread client) {
         // if command have "-" format 1 will be invoked
         if (command.contains("-")) {

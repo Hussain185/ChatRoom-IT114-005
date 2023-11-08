@@ -22,6 +22,8 @@ public class Payload implements Serializable {
     /**
      * Who the payload is from
      */
+    //msh52
+    //11/8/2023
     //payload sender 
     //private instance variable to store the sender's name
     private String sender;
