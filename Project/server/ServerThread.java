@@ -170,18 +170,22 @@ public class ServerThread extends Thread {
         //11/6/2023
         // processMesssgae 
         private String textStyles(String message) {
-            // red
+            
+            // Apply the [COLOR=red]...[/COLOR] style to text enclosed within "==red ...==" 
             message = message.replaceAll("==red (.*?)==", "[COLOR=red]$1[/COLOR]");
-            // green
+
+            //same concept as red but this is handling green
             message = message.replaceAll("==green (.*?)==", "[COLOR=green]$1[/COLOR]");
-            // blue
+            //handling blue
             message = message.replaceAll("==blue (.*?)==", "[COLOR=blue]$1[/COLOR]");
     
-            // bold
+            // Apply the [B]...[/B] style to text enclosed within "**...**" for bold.
             message = message.replaceAll("\\*\\*(.*?)\\*\\*", "[B]$1[/B]");
-            // italics
+
+            // Apply the [I]...[/I] style to text enclosed within "-...-" for italics.
             message = message.replaceAll("-(.*?)-", "[I]$1[/I]");
-            //underline
+
+            // Apply the [U]...[/U] style to text enclosed within "__...__" for underline.
             message = message.replaceAll("__(.*?)__", "[U]$1[/U]");
     
             return message;
