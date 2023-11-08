@@ -48,16 +48,18 @@ public class ServerThread extends Thread {
 
     // msh52
     //11/6/2023
-    // Paylod sender
+    //Paylod sender
 
     protected void setSender(String name) {
         if (name == null || name.isBlank()) {
             logger.warning("Invalid name being set");
             return;
         }
+        //set the sender's name
         sender = name;
     }
 
+    //getter method to retrieve the sender's name
     public String getSender() {
         return sender;
     }

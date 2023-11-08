@@ -22,12 +22,16 @@ public class Payload implements Serializable {
     /**
      * Who the payload is from
      */
+    //payload sender 
+    //private instance variable to store the sender's name
     private String sender;
 
+    //gettter method to retrieve the sender name
     public String getSender() {
         return sender;
     }
 
+    //setter method to set the sender name
     public void setSender(String sender) {
         this.sender = sender;
     }
