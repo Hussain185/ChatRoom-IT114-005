@@ -26,16 +26,16 @@ public class Payload implements Serializable {
     //11/8/2023
     //payload sender 
     //private instance variable to store the sender's name
-    private String sender;
+    private String clientName;
 
     //gettter method to retrieve the sender name
-    public String getSender() {
-        return sender;
+    public String getClientName() {
+        return clientName;
     }
 
     //setter method to set the sender name
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 
     private long clientId;
@@ -48,9 +48,6 @@ public class Payload implements Serializable {
         this.clientId = clientId;
     }
 
-    /**
-     * Generic text based message
-     */
     private String message;
 
     public String getMessage() {
@@ -60,12 +57,24 @@ public class Payload implements Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
-    
+
+    /**
+     * Generic text based message
+     */
+    private int number;
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
 
     @Override
     public String toString() {
-        return String.format("Type[%s],ClientId[%s,] Sender[%s], Message[%s]", getPayloadType().toString(),
-                getClientId(), getSender(),
+        return String.format("ClientId[%s], ClientName[%s], Type[%s], Number[%s], Message[%s]", getClientId(),
+                getClientName(), getPayloadType().toString(), getNumber(),
                 getMessage());
     }
 }

@@ -61,7 +61,7 @@ public class RoomsPanel extends JPanel {
                 String query = searchValue.getText().trim();
                 if (query.length() > 0) {
                     removeAllRooms();
-                    Client.INSTANCE.sendListRooms(query);
+                    Client.INSTANCE.sendGetRooms(query);
                     message.setText("Sent query");
                 } else {
                     message.setText("Can't search with an empty query");
