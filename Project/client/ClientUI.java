@@ -8,15 +8,14 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import java.io.File;
+import java.io.FileWriter;
 import javax.swing.JFileChooser;
+
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -66,8 +65,7 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
             public void componentMoved(ComponentEvent e) {
                 // System.out.println("Moved to " + e.getComponent().getLocation());
             }
-        });
-        
+        });  
         setMinimumSize(new Dimension(400, 400));
         // centers window
         setLocationRelativeTo(null);
@@ -79,8 +77,7 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
         // separate views
         csPanel = new ConnectionPanel(this);
         inputPanel = new UserInputPanel(this);
-        chatPanel = new ChatPanel(this);
-        
+        chatPanel = new ChatPanel(this);       
         roomsPanel = new RoomsPanel(this);
 
 

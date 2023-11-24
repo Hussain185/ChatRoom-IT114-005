@@ -112,7 +112,7 @@ public enum Client {
     // keep this private as utility methods should be the only Payload creators
     private void send(Payload p) throws IOException, NullPointerException {
         logger.log(Level.FINE, "Sending Payload: " + p);
-        out.writeObject(p);// TODO force throw each
+        out.writeObject(p);
         logger.log(Level.INFO, "Sent Payload: " + p);
     }
     

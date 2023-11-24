@@ -12,8 +12,6 @@ import java.util.Queue;
 public enum Server {
     INSTANCE;
     int port = 3001;
-    // connected clients
-    // private List<ServerThread> clients = new ArrayList<ServerThread>();
     private List<Room> rooms = new ArrayList<Room>();
     private Room lobby = null;// default room
     private long nextClientId = 1;
@@ -59,9 +57,6 @@ public enum Server {
         new Thread() {
             @Override
             public void run() {
-                // slight delay to let potentially new client to finish
-                // binding input/output streams
-                // comment out the Thread.sleep to see what happens
                 while (isRunning) {
                     try {
                         Thread.sleep(5);
@@ -140,7 +135,7 @@ public enum Server {
      */
     protected synchronized boolean createNewRoom(String roomName) {
         if (getRoom(roomName) != null) {
-            // TODO can't create room
+            // TODO Room exists; can't create room
             System.out.println(String.format("Room %s already exists", roomName));
             return false;
         } else {
@@ -186,6 +181,8 @@ public enum Server {
             System.out.println("Removed empty room " + r.getName());
         }
     }
+    
+    //send messages to all the rooms
 
     protected synchronized void broadcast(String message) {
         if (processCommand(message)) {

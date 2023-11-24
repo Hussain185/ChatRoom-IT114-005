@@ -277,8 +277,6 @@ public class ServerThread extends Thread {
     //msh52
     //11/21/2023
     // processMesssgae 
-
-
     private String processTextTriggers(String message) {
         // Bold trigger: *text*
         message = message.replaceAll("\\*(.*?)\\*", "<b>$1</b>");
