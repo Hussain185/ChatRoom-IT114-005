@@ -1,6 +1,5 @@
 package Project.client.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -11,6 +10,8 @@ import java.awt.event.ContainerListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,18 +30,21 @@ import Project.client.Client;
 import Project.client.ClientUtils;
 import Project.client.ICardControls;
 
+
 public class ChatPanel extends JPanel {
     private static Logger logger = Logger.getLogger(ChatPanel.class.getName());
     private JPanel chatArea = null;
     private UserListPanel userListPanel;
-
-    public ChatPanel(ICardControls controls) {
+    private List<String> chatHistory = new ArrayList<>();
+    public ChatPanel(ICardControls controls){
         super(new BorderLayout(10, 10));
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
         JPanel content = new JPanel();
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
         content.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+        //
+        
 
         // wraps a viewport to provide scroll capabilities
         JScrollPane scroll = new JScrollPane(content);
@@ -106,7 +110,6 @@ public class ChatPanel extends JPanel {
 
             @Override
             public void componentAdded(ContainerEvent e) {
-
                 if (chatArea.isVisible()) {
                     chatArea.revalidate();
                     chatArea.repaint();
@@ -130,8 +133,8 @@ public class ChatPanel extends JPanel {
                 // set the dimensions based on the frame size
                 Dimension frameSize = wrapper.getParent().getParent().getSize();
                 int w = (int) Math.ceil(frameSize.getWidth() * .3f);
-
-                userListPanel.setPreferredSize(new Dimension(w, (int) frameSize.getHeight()));
+                
+                userListPanel.setPreferredSize(new Dimension(w, (int)frameSize.getHeight()));
                 userListPanel.revalidate();
                 userListPanel.repaint();
             }
@@ -142,36 +145,51 @@ public class ChatPanel extends JPanel {
             }
         });
     }
-
-    public void addUserListItem(long clientId, String clientName) {
-        userListPanel.addUserListItem(clientId, clientName);
+    public List<String> getChatHistory() {
+        return chatHistory;
     }
-
-    public void removeUserListItem(long clientId) {
+    public void addUserListItem(long clientId, String clientName){
+        userListPanel.addUserListItem(clientId, clientName,false,false);
+    }
+    public void removeUserListItem(long clientId){
         userListPanel.removeUserListItem(clientId);
     }
-
-    public void clearUserList() {
+    public void clearUserList(){
         userListPanel.clearUserList();
     }
-
     public void addText(String text) {
-        JPanel content = chatArea;
-        // add message
-        JEditorPane textContainer = new JEditorPane("text/plain", text);
+        // Bold trigger: *text*
+        text = text.replaceAll("\\*(.*?)\\*", "<b>$1</b>");
 
-        // sizes the panel to attempt to take up the width of the container
-        // and expand in height based on word wrapping
-        textContainer.setLayout(null);
-        textContainer.setPreferredSize(
-                new Dimension(content.getWidth(), ClientUtils.calcHeightForText(this, text, content.getWidth())));
-        textContainer.setMaximumSize(textContainer.getPreferredSize());
+        // Italics trigger: _text_
+        text = text.replaceAll("_(.*?)_", "<i>$1</i>");
+
+        // Underline trigger: +text+
+        text = text.replaceAll("\\+(.*?)\\+", "<u>$1</u>");
+
+        // Color trigger: [color:red]text[/color]
+        text = text.replaceAll("\\[color:red\\](.*?)\\[/color\\]", "<font color=\"red\">$1</font>");
+        text = text.replaceAll("\\[color:blue\\](.*?)\\[/color\\]", "<font color=\"blue\">$1</font>");
+        text = text.replaceAll("\\[color:green\\](.*?)\\[/color\\]", "<font color=\"green\">$1</font>");
+
+        // Add the formatted text to the chat area
+        JEditorPane textContainer = new JEditorPane("text/html", text);
         textContainer.setEditable(false);
         ClientUtils.clearBackground(textContainer);
-        // add to container and tell the layout to revalidate
-        content.add(textContainer);
-        // scroll down on new message
+
+        // Calculate the preferred height of the text container to adjust the chat area size
+        int preferredHeight = ClientUtils.calcHeightForText(this, text, chatArea.getWidth());
+        textContainer.setPreferredSize(new Dimension(chatArea.getWidth(), preferredHeight));
+        textContainer.setMaximumSize(textContainer.getPreferredSize());
+        chatHistory.add(text); // Add the text to chat history
+
+
+        // Add the text container to the chat area and scroll to the latest message
+        chatArea.add(textContainer);
+        chatArea.revalidate();
+        chatArea.repaint();
         JScrollBar vertical = ((JScrollPane) chatArea.getParent().getParent()).getVerticalScrollBar();
         vertical.setValue(vertical.getMaximum());
     }
+
 }

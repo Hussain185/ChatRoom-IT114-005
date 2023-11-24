@@ -1,6 +1,5 @@
 package Project.client.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -21,9 +20,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
-import Project.client.Card;
 import Project.client.Client;
 import Project.client.ICardControls;
+import Project.client.Card;
 
 public class RoomsPanel extends JPanel {
     JPanel container;
@@ -55,7 +54,7 @@ public class RoomsPanel extends JPanel {
         JTextField searchValue = new JTextField();
         JButton searchButton = new JButton("Search");
         message = new JLabel("", 0);
-        JPanel messageContainer = new JPanel();// wrapper to help fix alignment
+        JPanel messageContainer = new JPanel();//wrapper to help fix alignment
         searchButton.addActionListener((event) -> {
             try {
                 String query = searchValue.getText().trim();

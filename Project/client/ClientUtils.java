@@ -1,6 +1,5 @@
 package Project.client;
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -31,8 +30,7 @@ public abstract class ClientUtils {
         mult++;
         return size.height * mult;
     }
-
-    public static void clearBackground(JComponent comp) {
+    public static void clearBackground(JComponent comp){
         comp.setOpaque(false);
         comp.setBorder(BorderFactory.createEmptyBorder());
         comp.setBackground(new Color(0, 0, 0, 0));

@@ -222,8 +222,6 @@ public class ServerThread extends Thread {
                 //handles with the processMessage()  
                 //storing result in message variable.
 
-
-
                 String message = p.getMessage();
                 //msh52
                 //11/21/2023

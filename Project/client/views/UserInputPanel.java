@@ -1,6 +1,5 @@
 package Project.client.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.logging.Level;
@@ -13,13 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import Project.client.Card;
 import Project.client.ICardControls;
+import Project.client.Card;
 
-public class UserInputPanel extends JPanel {
-    private static Logger logger = Logger.getLogger(UserInputPanel.class.getName());
+public class UserInputPanel extends JPanel{
+    private static Logger logger = Logger.getLogger(UserInputPanel.class.getName()); 
     private String username;
-
     public UserInputPanel(ICardControls controls) {
         super(new BorderLayout(10, 10));
         JPanel content = new JPanel();
@@ -75,8 +73,7 @@ public class UserInputPanel extends JPanel {
         this.setName(Card.USER_INFO.name());
         controls.addPanel(Card.USER_INFO.name(), this);
     }
-
-    public String getUsername() {
+    public String getUsername(){
         return username;
     }
 }

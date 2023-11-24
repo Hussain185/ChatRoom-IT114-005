@@ -1,6 +1,5 @@
 package Project.client;
 
-
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Container;
@@ -9,11 +8,15 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -43,6 +46,7 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
     private UserInputPanel inputPanel;
     private RoomsPanel roomsPanel;
     private ChatPanel chatPanel;
+    
 
     public ClientUI(String title) {
         super(title);// call the parent's constructor
@@ -63,7 +67,7 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
                 // System.out.println("Moved to " + e.getComponent().getLocation());
             }
         });
-
+        
         setMinimumSize(new Dimension(400, 400));
         // centers window
         setLocationRelativeTo(null);
@@ -76,8 +80,9 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
         csPanel = new ConnectionPanel(this);
         inputPanel = new UserInputPanel(this);
         chatPanel = new ChatPanel(this);
-
+        
         roomsPanel = new RoomsPanel(this);
+
 
         // https://stackoverflow.com/a/9093526
         // this tells the x button what to do (updated to be controlled via a prompt)
@@ -86,9 +91,9 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
             @Override
             public void windowClosing(WindowEvent windowEvent) {
                 int response = JOptionPane.showConfirmDialog(container,
-                        "Are you sure you want to close this window?", "Close Window?",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE);
+                "Are you sure you want to close this window?", "Close Window?",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
                 if (response == JOptionPane.YES_OPTION) {
                     try {
                         Client.INSTANCE.sendDisconnect();
@@ -104,13 +109,13 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
         setVisible(true);
     }
 
-    private void findAndSetCurrentPanel() {
+    void findAndSetCurrentPanel(){
         for (Component c : container.getComponents()) {
             if (c.isVisible()) {
                 currentCardPanel = (JPanel) c;
                 currentCard = Enum.valueOf(Card.class, currentCardPanel.getName());
-                // if we're not connected don't access anything that requires a connection
-                if (myId == Constants.DEFAULT_CLIENT_ID && currentCard.ordinal() >= Card.CHAT.ordinal()) {
+                //if we're not connected don't access anything that requires a connection
+                if(myId == Constants.DEFAULT_CLIENT_ID && currentCard.ordinal() >= Card.CHAT.ordinal()){
                     show(Card.CONNECT.name());
                 }
                 break;
@@ -118,7 +123,7 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
         }
         System.out.println(currentCardPanel.getName());
     }
-
+    
     @Override
     public void next() {
         card.next(container);
@@ -128,7 +133,7 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
     @Override
     public void previous() {
         card.previous(container);
-        findAndSetCurrentPanel();
+        
     }
 
     @Override
@@ -149,7 +154,7 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
         int port = csPanel.getPort();
         setTitle(originalTitle + " - " + username);
         Client.INSTANCE.connect(host, port, username, this);
-        // TODO add connecting screen/notice
+        //TODO add connecting screen/notice
     }
 
     public static void main(String[] args) {
@@ -163,6 +168,7 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
         }
         return clientName;
     }
+    
 
     /**
      * Used to handle new client connects/disconnects or existing client lists (one

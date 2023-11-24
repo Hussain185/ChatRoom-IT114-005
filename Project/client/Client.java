@@ -42,11 +42,8 @@ public enum Client {
      * 
      * @param address
      * @param port
-     * @param username
-     * @param callback (for triggering UI events)
      * @return true if connection was successful
      */
-
     public boolean connect(String address, int port, String username, IClientEvents callback) {
         // TODO validate
         this.clientName = username;
@@ -68,8 +65,9 @@ public enum Client {
         return isConnected();
     }
 
-    // Send methods 
-
+    // Send methods TODO add other utility methods for sending here
+    // NOTE: Can change this to protected or public if you plan to separate the
+    // sendConnect action and the socket handshake
     public void sendCreateRoom(String room) throws IOException, NullPointerException {
         Payload p = new Payload();
         p.setPayloadType(PayloadType.CREATE_ROOM);
@@ -111,9 +109,10 @@ public enum Client {
         send(p);
     }
 
+    // keep this private as utility methods should be the only Payload creators
     private void send(Payload p) throws IOException, NullPointerException {
         logger.log(Level.FINE, "Sending Payload: " + p);
-        out.writeObject(p);
+        out.writeObject(p);// TODO force throw each
         logger.log(Level.INFO, "Sent Payload: " + p);
     }
     

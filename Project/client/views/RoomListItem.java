@@ -1,6 +1,5 @@
 package Project.client.views;
 
-
 import java.util.function.Consumer;
 
 import javax.swing.BoxLayout;
