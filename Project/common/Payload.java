@@ -58,9 +58,6 @@ public class Payload implements Serializable {
         this.message = message;
     }
 
-    /**
-     * Generic text based message
-     */
     private int number;
 
     public int getNumber() {

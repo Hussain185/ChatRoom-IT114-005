@@ -13,12 +13,13 @@ import java.util.logging.Logger;
 import Project.common.Constants;
 
 public class Room implements AutoCloseable {
+	// server is a singleton now so we don't need this
+    // protected static Server server;// used to refer to accessible server
+    // functions
 	private String name;
 	private List<ServerThread> clients = Collections.synchronizedList(new ArrayList<ServerThread>());
 	private Map<String, List<String>> mutedClients = new HashMap<>();
 	private ConcurrentHashMap<Long, ServerThread> clientsById = new ConcurrentHashMap<>();
-
-
 	private boolean isRunning = false;
 	// Commands
 	private final static String COMMAND_TRIGGER = "/";
@@ -66,10 +67,7 @@ public class Room implements AutoCloseable {
 			return;
 		}
 		clients.remove(client);
-		// we don't need to broadcast it to the server
-		// only to our own Room
 		if (clients.size() > 0) {
-			// sendMessage(client, "left the room");
 			sendConnectionStatus(client, false);
 		}
 		checkClients();
@@ -151,6 +149,14 @@ public class Room implements AutoCloseable {
 			client.sendRoomsList(null, String.format("Room %s already exists", roomName));
 		}
 	}
+
+	/**
+     * Will cause the client to leave the current room and be moved to the new room
+     * if applicable
+     * 
+     * @param roomName
+     * @param client
+     */
 
 	protected static void joinRoom(String roomName, ServerThread client) {
 		if (!Server.INSTANCE.joinRoom(roomName, client)) {
