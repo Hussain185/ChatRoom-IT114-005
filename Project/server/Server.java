@@ -16,7 +16,7 @@ import Project.common.Constants;
 public enum Server {
     INSTANCE;
 
-    int port = 3000;
+    int port = 3001;
     private static Logger logger = Logger.getLogger(Server.class.getName());
     private List<Room> rooms = new ArrayList<Room>();
     private Room lobby = null;// default room
