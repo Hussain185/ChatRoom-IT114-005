@@ -4,16 +4,20 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.logging.Logger;
+
+import Project.common.Constants;
 
 public enum Server {
     INSTANCE;
+
     int port = 3001;
-    // connected clients
-    // private List<ServerThread> clients = new ArrayList<ServerThread>();
+    private static Logger logger = Logger.getLogger(Server.class.getName());
     private List<Room> rooms = new ArrayList<Room>();
     private Room lobby = null;// default room
     private long nextClientId = 1;
@@ -27,16 +31,17 @@ public enum Server {
         // server listening
         try (ServerSocket serverSocket = new ServerSocket(port);) {
             Socket incoming_client = null;
-            System.out.println("Server is listening on port " + port);
+            logger.info(String.format("Server is listening on port %s", port));
             isRunning = true;
+            // Room.server = this;//since server is a singleton now we don't need this
             startQueueManager();
             // create a lobby on start
-            lobby = new Room("Lobby");
+            lobby = new Room(Constants.LOBBY);
             rooms.add(lobby);
             do {
-                System.out.println("waiting for next client");
+                logger.info("Waiting for next client");
                 if (incoming_client != null) {
-                    System.out.println("Client connected");
+                    logger.info("Client connected");
                     ServerThread sClient = new ServerThread(incoming_client, lobby);
                     sClient.start();
                     incomingClients.add(sClient);
@@ -45,10 +50,10 @@ public enum Server {
                 }
             } while ((incoming_client = serverSocket.accept()) != null);
         } catch (IOException e) {
-            System.err.println("Error accepting connection");
+            logger.severe("Error accepting connection");
             e.printStackTrace();
         } finally {
-            System.out.println("closing server socket");
+            logger.info("Closing Server Socket");
         }
     }
 
@@ -59,9 +64,6 @@ public enum Server {
         new Thread() {
             @Override
             public void run() {
-                // slight delay to let potentially new client to finish
-                // binding input/output streams
-                // comment out the Thread.sleep to see what happens
                 while (isRunning) {
                     try {
                         Thread.sleep(5);
@@ -71,8 +73,9 @@ public enum Server {
                     if (incomingClients.size() > 0) {
                         ServerThread ic = incomingClients.peek();
                         if (ic != null) {
-                            //wait for the thread to start and for the client to send the client name (username)
-                            if (ic.isRunning() && ic.getClientName() != null) {
+                            // wait for the thread to start and for the client to send the client name
+                            // (username)
+                            if (ic.isRunning() && ic.getName() != null) {
                                 handleIncomingClient(ic);
                                 incomingClients.poll();
                             }
@@ -90,7 +93,7 @@ public enum Server {
         if (nextClientId < 0) {// will use overflow to reset our counter
             nextClientId = 1;
         }
-        joinRoom("lobby", client);
+        joinRoom(Constants.LOBBY, client);
     }
 
     /***
@@ -117,15 +120,14 @@ public enum Server {
      * @return true if reassign worked; false if new room doesn't exist
      */
     protected synchronized boolean joinRoom(String roomName, ServerThread client) {
-        Room newRoom = roomName.equalsIgnoreCase("lobby") ? lobby : getRoom(roomName);
+        Room newRoom = roomName.equalsIgnoreCase(Constants.LOBBY) ? lobby : getRoom(roomName);
         Room oldRoom = client.getCurrentRoom();
-        if (newRoom != null) {
+        if (newRoom != null && roomName != null) {
             if (oldRoom != null && oldRoom != newRoom) {
-                System.out.println(client.getName() + " leaving room " + oldRoom.getName());
+                logger.info(String.format("Client %s leaving old room %s", client.getName(), oldRoom.getName()));
                 oldRoom.removeClient(client);
-                client.sendResetUserList();
             }
-            System.out.println(client.getName() + " joining room " + newRoom.getName());
+            logger.info(String.format("Client %s joining new room %s", client.getName(), newRoom.getName()));
             newRoom.addClient(client);
             return true;
         }
@@ -140,40 +142,46 @@ public enum Server {
      */
     protected synchronized boolean createNewRoom(String roomName) {
         if (getRoom(roomName) != null) {
-            // TODO can't create room
-            System.out.println(String.format("Room %s already exists", roomName));
+            // TODO Room exists; can't create room
+            logger.info(String.format("Room %s already exists", roomName));
             return false;
         } else {
-            Room room = new Room(roomName);
-            rooms.add(room);
-            System.out.println("Created new room: " + roomName);
+            // TODO, all non-lobby rooms will be games
+            // Room room = new Room(roomName); //chatroom project can just use regular rooms
+            Collection<? extends Room> room = (Collection<? extends Room>) new GameRoom(roomName); // all other projects
+            rooms.addAll(room);
+            logger.info(String.format("Created new room %s", roomName));
             return true;
         }
     }
+
     /**
      * Returns Rooms with names having a partial match with query.
      * Hard coded to a limit of 10.
+     * 
      * @param query
      * @return
      */
-    protected synchronized List<String> getRooms(String query){
+    protected synchronized List<String> getRooms(String query) {
         return getRooms(query, 10);
     }
+
     /**
      * Returns Rooms with names having a partial match with query.
+     * 
      * @param query
      * @param limit The maximum records to return
      * @return
      */
-    protected synchronized List<String> getRooms(String query, int limit){
+    protected synchronized List<String> getRooms(String query, int limit) {
         List<String> matchedRooms = new ArrayList<String>();
-        synchronized(rooms){
+        synchronized (rooms) {
             Iterator<Room> iter = rooms.iterator();
-            while(iter.hasNext()){
+            while (iter.hasNext()) {
                 Room r = iter.next();
-                if(r.isRunning() && r.getName().toLowerCase().contains(query.toLowerCase())){
+                if (r.isRunning() && r.getName().toLowerCase().contains(query.toLowerCase())) {
                     matchedRooms.add(r.getName());
-                    if(matchedRooms.size() >= limit){
+                    if (matchedRooms.size() >= limit) {
                         break;
                     }
                 }
@@ -181,15 +189,20 @@ public enum Server {
         }
         return matchedRooms;
     }
+
     protected synchronized void removeRoom(Room r) {
         if (rooms.removeIf(room -> room == r)) {
-            System.out.println("Removed empty room " + r.getName());
+            logger.info(String.format("Removed empty room %s", r.getName()));
         }
     }
 
+    /**
+     * Send message to all rooms
+     * 
+     * @param message
+     */
     protected synchronized void broadcast(String message) {
         if (processCommand(message)) {
-
             return;
         }
         // loop over rooms and send out the message
@@ -209,16 +222,15 @@ public enum Server {
     }
 
     public static void main(String[] args) {
-        System.out.println("Starting Server");
-        Server server = Server.INSTANCE;
-        int port = 3000;
+        Server.logger.info("Starting server");
+        int port = Server.INSTANCE.port;
         try {
             port = Integer.parseInt(args[0]);
         } catch (Exception e) {
             // can ignore, will either be index out of bounds or type mismatch
             // will default to the defined value prior to the try/catch
         }
-        server.start(port);
-        System.out.println("Server Stopped");
+        Server.INSTANCE.start(port);
+        Server.logger.info("Server stopped");
     }
 }

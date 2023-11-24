@@ -109,7 +109,6 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
         setVisible(true);
     }
 
-
     void findAndSetCurrentPanel(){
         for (Component c : container.getComponents()) {
             if (c.isVisible()) {
