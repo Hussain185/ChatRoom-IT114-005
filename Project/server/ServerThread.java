@@ -214,14 +214,11 @@ public class ServerThread extends Thread {
                 break;
             case MESSAGE:
             // TODO migrate to lobby
-
                 //msh52
                 //11/6/2023
-                //gets the message from the object p
-                //removes any extra spaces at the beginning/end with trim()
+                //gets the message from the object p, removes any extra spaces at the beginning/end with trim()
                 //handles with the processMessage()  
                 //storing result in message variable.
-
                 String message = p.getMessage();
                 //msh52
                 //11/21/2023
@@ -241,14 +238,11 @@ public class ServerThread extends Thread {
                 // if it does then excecutes processMuteCommand
                 } else if (message.startsWith("mute ")){
                     processMuteCommand(message);
-
                 // checks if messege starts with unmute 
                 // if it does then excecutes processUnmuteCommand
                 } else if (message.startsWith("unmute ")){
                     processUnmuteCommand(message);
-
-                } else {
-                
+                } else {               
                     if (currentRoom != null) {
                         currentRoom.sendMessage(this, p.getMessage());
                     } else {
@@ -384,9 +378,9 @@ public class ServerThread extends Thread {
                 // checks if the the reciver is in the current room
                 if (receiver != null) {
                     // Send the private message to the sender and receiver only
-                    sendMessage(getClientId(), "You whispered to "+ receiverName + ": " + privateMessage);
+                    sendMessage(getClientId(), "You are sending private message to "+ receiverName + ": " + privateMessage);
                     // sends private message to reciver
-                    receiver.sendMessage(getClientId(),getClientName()+" whispered to you : " + privateMessage);
+                    receiver.sendMessage(getClientId(),getClientName()+" private message to you : " + privateMessage);
                 } else {
                     // if the reciver is not found
                     sendMessage(getClientId(), "User " + receiverName + " not found in the room.");
@@ -426,12 +420,8 @@ public class ServerThread extends Thread {
         } else {
             // If the user is not in any room
             sendMessage(getClientId(), "You are not currently in a room.");
-        }
-            
-         
+        }               
     }
-
-
     private void processUnmuteCommand(String message) {
         // takes the target username
         String targetUsername = message.substring(7).trim();
