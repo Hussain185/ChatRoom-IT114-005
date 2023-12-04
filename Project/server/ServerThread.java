@@ -403,6 +403,8 @@ public class ServerThread extends Thread {
                 // If the target user is already muted, do not send a repeat message
                 sendMessage(getClientId(), targetUsername + " is already muted");
             } else {
+                // Notify the muted user
+                targetClient.sendMessage(getClientId(), getClientName() + " muted you");
                 // Set target user's ServerThread to true (muted)
                 targetClient.setMuted(true);
                 muteList.put(targetUsername, true);
@@ -410,9 +412,8 @@ public class ServerThread extends Thread {
                 // Notify the sender that the target user has been muted
                 sendMessage(getClientId(), "You muted " + targetUsername);
 
-                // Notify the muted user
-                targetClient.sendMessage(getClientId(), getClientName() + " muted you");
             }
+
         } else {
             // If the user is not found in the same room
             sendMessage(getClientId(), "User " + targetUsername + " not found in the room.");
