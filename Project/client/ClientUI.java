@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.List;
 import java.io.File;
 import java.io.FileWriter;
 import javax.swing.JFileChooser;
@@ -120,7 +121,36 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
         }
         System.out.println(currentCardPanel.getName());
     }
+
+    //msh52
+    //12/3/2023
+    public void exportChatHistory() {
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            int userChoice = fileChooser.showSaveDialog(this);
+            if (userChoice == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                FileWriter writer = new FileWriter(selectedFile);
     
+                // Get chat history from the chat panel
+                List<String> chatHistory = chatPanel.getChatHistory();
+    
+                // Write chat history to the file
+                for (String message : chatHistory) {
+                    writer.write(message + "\n");
+                }
+    
+                writer.close();
+
+                // Display a message to notify the user about the successful completion of the export.
+                JOptionPane.showMessageDialog(this, "Chat history exported successfully.", "Export Completed", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (IOException ex) {
+            // Print the stack trace for debugging purposes if an IOException happens during file handling operations.
+            ex.printStackTrace();
+        }
+    }
+
     @Override
     public void next() {
         card.next(container);

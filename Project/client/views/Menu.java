@@ -15,6 +15,19 @@ public class Menu extends JMenuBar {
         roomsSearch.addActionListener((event) -> {
             controls.show(Card.ROOMS.name());
         });
+        //msh52
+        //12/3/2023
+        JMenuItem exportMenuItem = new JMenuItem("Export Chat History");
+        exportMenuItem.addActionListener(e -> controls.exportChatHistory()); // Call exportChatHistory through ICardControls
+
+        // Adding an ActionListener to the exportMenuItem using a lambda expression
+        // When the menu item is clicked, it will execute the exportChatHistory()
+
+        roomsMenu.add(roomsSearch);
+        // Adding the exportMenuItem to the 'roomsMenu
+        roomsMenu.add(exportMenuItem);
+        // Adding the 'roomsMenu' to the current component
+        this.add(roomsMenu);
         roomsMenu.add(roomsSearch);
         this.add(roomsMenu);
     }

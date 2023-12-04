@@ -470,8 +470,6 @@ public class ServerThread extends Thread {
     return false;
 }
 
-
-
     private void cleanup() {
         info("Thread cleanup() start");
         try {
