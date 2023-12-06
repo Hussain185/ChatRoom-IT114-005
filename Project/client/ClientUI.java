@@ -27,6 +27,7 @@ import Project.client.views.ConnectionPanel;
 import Project.client.views.Menu;
 import Project.client.views.RoomsPanel;
 import Project.client.views.UserInputPanel;
+import Project.client.views.UserListPanel;
 import Project.common.Constants;
 
 public class ClientUI extends JFrame implements IClientEvents, ICardControls {
@@ -242,11 +243,14 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
         }
     }
 
+    //msh52
+    //12/6/2023
     @Override
     public void onMessageReceive(long clientId, String message) {
         if (currentCard.ordinal() >= Card.CHAT.ordinal()) {
             String clientName = mapClientId(clientId);
             chatPanel.addText(String.format("%s: %s", clientName, message));
+            chatPanel.highlightUser(clientId);
         }
     }
 

@@ -48,4 +48,5 @@ public interface IClientEvents {
      * @param roomName
      */
     void onRoomJoin(String roomName);
+
 }

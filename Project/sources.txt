@@ -1,4 +1,3 @@
-./client/Card.java
 ./client/Client.java
 ./client/ClientUI.java
 ./client/ClientUtils.java
@@ -11,11 +10,11 @@
 ./client/views/RoomsPanel.java
 ./client/views/UserInputPanel.java
 ./client/views/UserListPanel.java
+./client/Card.java
 ./common/Constants.java
 ./common/Payload.java
 ./common/PayloadType.java
 ./common/RoomResultPayload.java
-./server/GameRoom.java
 ./server/Room.java
 ./server/Server.java
 ./server/ServerThread.java

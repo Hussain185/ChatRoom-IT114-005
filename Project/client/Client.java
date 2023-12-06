@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 import Project.common.Payload;
 import Project.common.PayloadType;
 import Project.common.RoomResultPayload;
+import Project.client.views.UserListPanel;
+
 
 public enum Client {
     INSTANCE;
