@@ -91,15 +91,24 @@ public class UserListPanel extends JPanel {
  
     //msh52
     //12/6/2023
-    //testing
     protected void updateUserListItem(long clientId) {
-        logger.log(Level.INFO, "removing user list item for id " + clientId);
+        // Log information about the user list item being updated
+        logger.log(Level.INFO, "Updating display color for user with ID: " + clientId);
+    
+        // Retrieve all components (user list items) from the user list area
         Component[] cs = userListArea.getComponents();
+    
+        // Iterate over each component in the user list
         for (Component c : cs) {
+            // Check if the component's name matches the client ID
             boolean isUser = c.getName().equals(clientId + "");
+    
+            // If the component is the user being updated, set its foreground color to red
+            // Otherwise, set the color to black
             ((JEditorPane) c).setForeground((isUser ? Color.RED : Color.black));
         }
     }
+    
     
     protected void removeUserListItem(long clientId) {
         logger.log(Level.INFO, "removing user list item for id " + clientId);
