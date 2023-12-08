@@ -184,7 +184,6 @@ public class Room implements AutoCloseable {
 
 	// msh52
 	// 11/21/2023
-
 	protected synchronized void sendMessage(ServerThread sender, String message) {
 		if (!isRunning) {
 			return;
@@ -214,6 +213,10 @@ public class Room implements AutoCloseable {
 			}
 		}
 	}
+
+
+	
+	
 
 	protected synchronized void sendUserListToClient(ServerThread receiver) {
 		logger.log(Level.INFO, String.format("Room[%s] Syncing client list of %s to %s", getName(), clients.size(),

@@ -403,81 +403,48 @@ public class ServerThread extends Thread {
         }
     }   
 
-    //msh52
-    //12/8/2023
     private void processMuteCommand(String message) {
-        // Extracts the username from the message, starting after the "mute " command
         String targetUsername = message.substring(5).trim();
-        
-        // Checks if the client is part of a room
         if (currentRoom != null) {
-            // Attempts to find the user to be muted in the current room
             ServerThread targetClient = currentRoom.findClientByName(targetUsername);
-            
-            // If the target client is found
             if (targetClient != null) {
-                // Check if the target user is already in the mute list
                 if (muteList.contains(targetUsername)) {
-                    // Inform the sender that the target user is already muted
                     sendMessage(getClientId(), targetUsername + " is already muted");
                 } else {
-                    // Adds the target user to the mute list
                     muteList.add(targetUsername);
-                    // Saves the updated mute list to the file system
-                    saveMuteListToFile();
-                    // Notifies the target user that they have been muted by the sender
+                    saveMuteListToFile();  // Save the updated mute list
                     targetClient.sendMessage(getClientId(), getClientName() + " muted you");
-                    // Informs the sender that they have muted the target user
                     sendMessage(getClientId(), "You muted " + targetUsername);
                 }
             } else {
-                // Notifies the sender that the target user could not be found in the room
                 sendMessage(getClientId(), "User " + targetUsername + " not found in the room.");
             }
         } else {
-            // Informs the sender that they are not currently in a room and therefore cannot mute anyone
             sendMessage(getClientId(), "You are not currently in a room.");
         }
     }
-        
-    //msh52
-    //12/8/2023
+    
     private void processUnmuteCommand(String message) {
-        // Extracts the username from the message, starting after the "unmute " command
         String targetUsername = message.substring(7).trim();
-        
-        // Checks if the client is part of a room
         if (currentRoom != null) {
-            // Attempts to find the user to be unmuted in the current room
             ServerThread targetClient = currentRoom.findClientByName(targetUsername);
-            
-            // If the target client is found
             if (targetClient != null) {
-                // Check if the target user is currently muted
                 if (!muteList.contains(targetUsername)) {
-                    // Inform the sender that the target user is not muted
-                    sendMessage(getClientId(), targetUsername + " is not muted.");
+                    sendMessage(getClientId(), targetUsername + " is already unmuted");
                 } else {
-                    // Removes the user from the muted list as they are being unmuted
                     muteList.remove(targetUsername);
-                    // Saves the updated mute list to the file system
-                    saveMuteListToFile();
-                    // Notifies the target user that they have been unmuted by the sender
+                    saveMuteListToFile(); // Save the updated mute list to file
+
                     targetClient.sendMessage(getClientId(), getClientName() + " unmuted you");
-                    // Informs the sender that they have unmuted the target user
-                    sendMessage(getClientId(), "You unmuted " + targetUsername);
+                    sendMessage(getClientId(), "You Unmuted " + targetUsername + ".");
                 }
             } else {
-                // Notifies the sender that the target user could not be found in the room
                 sendMessage(getClientId(), "User " + targetUsername + " not found in the room.");
             }
         } else {
-            // Informs the sender that they are not currently in a room and therefore cannot unmute anyone
             sendMessage(getClientId(), "You are not currently in a room.");
         }
     }
-    
-    
        
     //returns isMuted of the ServerThread 
     // lets user know muted or not.
@@ -490,30 +457,17 @@ public class ServerThread extends Thread {
     }
 
     
-     /**
-     * Saves the current mute list to a file. This allows the application to maintain
-     * a persistent list of muted clients across server restarts. Each muted client's
-     * name is written to the file, separated by commas and followed by a new line.
-     */
     //msh52
     //12/7/2023
     private void saveMuteListToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(clientName + "_muteList.csv"))) {
             for (String mutedClient : muteList) {
                 writer.write(mutedClient + ",");
-                writer.newLine();
             }
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error writing to mute list file", e);
         }
     }
-
-    /**
-     * Loads the mute list from a file into the application's current session. This method
-     * is typically called when initializing a ServerThread to ensure that the mute list
-     * is preserved. It reads the muted clients' names from the file and adds them to the
-     * mute list.
-     */
 
     private void loadMuteListFromFile() {
         try (BufferedReader reader = new BufferedReader(new FileReader(clientName + "_muteList.csv"))) {
@@ -535,11 +489,9 @@ public class ServerThread extends Thread {
         return false;
     }
 
-    // Checks if a particular user is in the mute list.
     public boolean hasUserMuted(String username) {
         return muteList.contains(username);
     }
-
     
 
     private void cleanup() {
