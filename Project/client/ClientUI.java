@@ -47,7 +47,7 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
     private UserInputPanel inputPanel;
     private RoomsPanel roomsPanel;
     private ChatPanel chatPanel;
-    
+    private UserListPanel userListPanel;
 
     public ClientUI(String title) {
         super(title);// call the parent's constructor
@@ -162,6 +162,18 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
     public void previous() {
         card.previous(container);
         
+    }
+
+    //msh52
+    //12/8/2023
+    @Override
+    public void onUserMuted(long userId) {
+        userListPanel.muteUser(userId); 
+    }
+
+    @Override
+    public void onUserUnmuted(long userId) {
+        userListPanel.unmuteUser(userId); 
     }
 
     @Override

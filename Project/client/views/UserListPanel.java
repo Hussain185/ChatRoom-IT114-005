@@ -108,6 +108,41 @@ public class UserListPanel extends JPanel {
             ((JEditorPane) c).setForeground((isUser ? Color.RED : Color.black));
         }
     }
+
+    // msh52
+    // 12/6/2023
+    // This method updates the user list item to indicate that the user is muted
+    public void muteUser(long userId) {
+        logger.log(Level.INFO, "Muting user list item for id " + userId);
+        Component[] components = userListArea.getComponents();
+        for (Component component : components) {
+            if (component.getName().equals(Long.toString(userId))) {
+                // Change the text color to gray to indicate the user is muted
+                component.setForeground(Color.GRAY);
+                break; // No need to continue the loop once we've found the user
+            }
+        }
+        userListArea.revalidate();
+        userListArea.repaint();
+    }
+
+    // msh52
+    // 12/6/2023
+    // This method updates the user list item to indicate that the user is unmuted
+    public void unmuteUser(long userId) {
+        logger.log(Level.INFO, "Unmuting user list item for id " + userId);
+        Component[] components = userListArea.getComponents();
+        for (Component component : components) {
+            if (component.getName().equals(Long.toString(userId))) {
+                // Change the text color back to the default color (e.g., black) to indicate the user is unmuted
+                component.setForeground(Color.BLACK);
+                break; // No need to continue the loop once we've found the user
+            }
+        }
+        userListArea.revalidate();
+        userListArea.repaint();
+    }
+
     
     
     protected void removeUserListItem(long clientId) {

@@ -183,7 +183,7 @@ public class Room implements AutoCloseable {
 	 */
 
 	// msh52
-	// 11/21/2023
+	// 12/8/2023
 	protected synchronized void sendMessage(ServerThread sender, String message) {
 		if (!isRunning) {
 			return;
