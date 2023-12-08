@@ -148,9 +148,20 @@ public class ChatPanel extends JPanel {
     public List<String> getChatHistory() {
         return chatHistory;
     }
-    public void addUserListItem(long clientId, String clientName){
-        userListPanel.addUserListItem(clientId, clientName,false,false);
+
+    //msh52
+    //12/6/2023
+    // This method highlights the user in the UserListPanel when they send a message
+    public void highlightUser(long clientId) {
+        userListPanel.updateUserListItem(clientId);
     }
+
+    
+    public void addUserListItem(long clientId, String clientName){
+        userListPanel.addUserListItem(clientId, clientName);
+    }
+     
+
     public void removeUserListItem(long clientId){
         userListPanel.removeUserListItem(clientId);
     }

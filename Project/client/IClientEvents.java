@@ -48,4 +48,11 @@ public interface IClientEvents {
      * @param roomName
      */
     void onRoomJoin(String roomName);
+
+    //msh52
+    //12/8//2023
+    void onUserMuted(long userId);
+    void onUserUnmuted(long userId);
+
+
 }

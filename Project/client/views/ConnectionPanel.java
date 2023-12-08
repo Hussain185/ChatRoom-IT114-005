@@ -29,7 +29,7 @@ public class ConnectionPanel extends JPanel {
         content.add(hostError);
         // add port info
         JLabel portLabel = new JLabel("Port:");
-        JTextField portValue = new JTextField("3000");
+        JTextField portValue = new JTextField("3001");
         JLabel portError = new JLabel();
         content.add(portLabel);
         content.add(portValue);

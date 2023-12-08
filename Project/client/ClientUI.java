@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.List;
 import java.io.File;
 import java.io.FileWriter;
 import javax.swing.JFileChooser;
@@ -26,6 +27,7 @@ import Project.client.views.ConnectionPanel;
 import Project.client.views.Menu;
 import Project.client.views.RoomsPanel;
 import Project.client.views.UserInputPanel;
+import Project.client.views.UserListPanel;
 import Project.common.Constants;
 
 public class ClientUI extends JFrame implements IClientEvents, ICardControls {
@@ -45,7 +47,7 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
     private UserInputPanel inputPanel;
     private RoomsPanel roomsPanel;
     private ChatPanel chatPanel;
-    
+    private UserListPanel userListPanel;
 
     public ClientUI(String title) {
         super(title);// call the parent's constructor
@@ -120,7 +122,36 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
         }
         System.out.println(currentCardPanel.getName());
     }
+
+    //msh52
+    //12/3/2023
+    public void exportChatHistory() {
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            int userChoice = fileChooser.showSaveDialog(this);
+            if (userChoice == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                FileWriter writer = new FileWriter(selectedFile);
     
+                // Get chat history from the chat panel
+                List<String> chatHistory = chatPanel.getChatHistory();
+    
+                // Write chat history to the file
+                for (String message : chatHistory) {
+                    writer.write(message + "\n");
+                }
+    
+                writer.close();
+
+                // Display a message to notify the user about the successful completion of the export.
+                JOptionPane.showMessageDialog(this, "Chat history exported successfully.", "Export Completed", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (IOException ex) {
+            // Print the stack trace for debugging purposes if an IOException happens during file handling operations.
+            ex.printStackTrace();
+        }
+    }
+
     @Override
     public void next() {
         card.next(container);
@@ -131,6 +162,18 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
     public void previous() {
         card.previous(container);
         
+    }
+
+    //msh52
+    //12/8/2023
+    @Override
+    public void onUserMuted(long userId) {
+        userListPanel.muteUser(userId); 
+    }
+
+    @Override
+    public void onUserUnmuted(long userId) {
+        userListPanel.unmuteUser(userId); 
     }
 
     @Override
@@ -212,11 +255,14 @@ public class ClientUI extends JFrame implements IClientEvents, ICardControls {
         }
     }
 
+    //msh52
+    //12/6/2023
     @Override
     public void onMessageReceive(long clientId, String message) {
         if (currentCard.ordinal() >= Card.CHAT.ordinal()) {
             String clientName = mapClientId(clientId);
             chatPanel.addText(String.format("%s: %s", clientName, message));
+            chatPanel.highlightUser(clientId);
         }
     }
 

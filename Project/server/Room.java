@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Project.common.Constants;
+import Project.server.ServerThread;
 
 public class Room implements AutoCloseable {
 	// server is a singleton now so we don't need this
@@ -180,9 +181,10 @@ public class Room implements AutoCloseable {
 	 * @param sender  The client sending the message
 	 * @param message The message to broadcast inside the room
 	 */
+
 	// msh52
-    //11/21/2023
-	 protected synchronized void sendMessage(ServerThread sender, String message) {
+	// 12/8/2023
+	protected synchronized void sendMessage(ServerThread sender, String message) {
 		if (!isRunning) {
 			return;
 		}
@@ -196,20 +198,25 @@ public class Room implements AutoCloseable {
 			Iterator<ServerThread> iter = clients.iterator();
 			while (iter.hasNext()) {
 				ServerThread client = iter.next();
-				// chekes client muted or not before sending messeege 
-				if (!client.isMuted()){
-					// if not muted 
-					// send messege to clinet with form to identify sender
-					boolean messageSent = client.sendMessage(from, message);
-					if (!messageSent) {
-						// disconnection handel
-						handleDisconnect(iter, client);
-					}
-				
+				// Check if the sender is muted by the client
+				if (sender != null && client.hasUserMuted(sender.getClientName())) {
+					// Skip sending the message if the sender is muted by this client
+					continue;
+				}
+				// Send message to the client if not muted
+				boolean messageSent = client.sendMessage(from, message);
+				if (!messageSent) {
+					// Handle disconnection if message sending fails
+					iter.remove();
+					handleDisconnect(iter, client);
 				}
 			}
 		}
 	}
+
+
+	
+	
 
 	protected synchronized void sendUserListToClient(ServerThread receiver) {
 		logger.log(Level.INFO, String.format("Room[%s] Syncing client list of %s to %s", getName(), clients.size(),
@@ -259,8 +266,6 @@ public class Room implements AutoCloseable {
 			}
 		}
 	}
-
-	
 
 	private synchronized void handleDisconnect(Iterator<ServerThread> iter, ServerThread client) {
 		if (iter != null) {

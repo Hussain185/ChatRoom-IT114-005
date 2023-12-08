@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.JEditorPane;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -64,7 +65,7 @@ public class UserListPanel extends JPanel {
         });
     }
 
-    protected void addUserListItem(long clientId, String clientName,boolean isMuted, boolean isHighlighted) {
+    protected void addUserListItem(long clientId, String clientName) {
         logger.log(Level.INFO, "Adding user to list: " + clientName);
         JPanel content = userListArea;
         logger.log(Level.INFO, "Userlist: " + content.getSize());
@@ -72,33 +73,78 @@ public class UserListPanel extends JPanel {
         // msh52
         //11/23/2023
         JEditorPane textContainer = new JEditorPane("text/plain", clientName);
-        // applies gray if the user is muted
-        if (isMuted) {
-            textContainer.setForeground(Color.GRAY);
-        }
-        // applies black when the user in unmuted
-        if (isHighlighted) {
-            textContainer.setForeground(Color.BLACK);
-        }
         textContainer.setName(clientId + "");
         // sizes the panel to attempt to take up the width of the container
         // and expand in height based on word wrapping
         textContainer.setLayout(null);
         textContainer.setPreferredSize(
-                new Dimension(content.getWidth(), ClientUtils.calcHeightForText(this, clientName, content.getWidth())));
+        new Dimension(content.getWidth(), ClientUtils.calcHeightForText(this, clientName, content.getWidth())));
         textContainer.setMaximumSize(textContainer.getPreferredSize());
         textContainer.setEditable(false);
         // remove background and border (comment these out to see what it looks like
         // otherwise)
         ClientUtils.clearBackground(textContainer);
-        userItemPanel.add(textContainer, BorderLayout.CENTER);
-
         // Add the user item panel to the user list area
-        content.add(userItemPanel);
         // add to container
         content.add(textContainer);
     }
+ 
+    //msh52
+    //12/6/2023
+    protected void updateUserListItem(long clientId) {
+        // Log information about the user list item being updated
+        logger.log(Level.INFO, "Updating display color for user with ID: " + clientId);
+    
+        // Retrieve all components (user list items) from the user list area
+        Component[] cs = userListArea.getComponents();
+    
+        // Iterate over each component in the user list
+        for (Component c : cs) {
+            // Check if the component's name matches the client ID
+            boolean isUser = c.getName().equals(clientId + "");
+    
+            // If the component is the user being updated, set its foreground color to red
+            // Otherwise, set the color to black
+            ((JEditorPane) c).setForeground((isUser ? Color.RED : Color.black));
+        }
+    }
 
+    // msh52
+    // 12/6/2023
+    // This method updates the user list item to indicate that the user is muted
+    public void muteUser(long userId) {
+        logger.log(Level.INFO, "Muting user list item for id " + userId);
+        Component[] components = userListArea.getComponents();
+        for (Component component : components) {
+            if (component.getName().equals(Long.toString(userId))) {
+                // Change the text color to gray to indicate the user is muted
+                component.setForeground(Color.GRAY);
+                break; // No need to continue the loop once we've found the user
+            }
+        }
+        userListArea.revalidate();
+        userListArea.repaint();
+    }
+
+    // msh52
+    // 12/6/2023
+    // This method updates the user list item to indicate that the user is unmuted
+    public void unmuteUser(long userId) {
+        logger.log(Level.INFO, "Unmuting user list item for id " + userId);
+        Component[] components = userListArea.getComponents();
+        for (Component component : components) {
+            if (component.getName().equals(Long.toString(userId))) {
+                // Change the text color back to the default color (e.g., black) to indicate the user is unmuted
+                component.setForeground(Color.BLACK);
+                break; // No need to continue the loop once we've found the user
+            }
+        }
+        userListArea.revalidate();
+        userListArea.repaint();
+    }
+
+    
+    
     protected void removeUserListItem(long clientId) {
         logger.log(Level.INFO, "removing user list item for id " + clientId);
         Component[] cs = userListArea.getComponents();
@@ -109,7 +155,7 @@ public class UserListPanel extends JPanel {
             }
         }
     }
-
+    
     protected void clearUserList() {
         Component[] cs = userListArea.getComponents();
         for (Component c : cs) {
