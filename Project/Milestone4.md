@@ -1,6 +1,6 @@
 <table><tr><td> <em>Assignment: </em> IT114 Chatroom Milestone4</td></tr>
 <tr><td> <em>Student: </em> Mohammad Hussain (msh52)</td></tr>
-<tr><td> <em>Generated: </em> 12/8/2023 5:56:56 AM</td></tr>
+<tr><td> <em>Generated: </em> 12/8/2023 6:09:15 AM</td></tr>
 <tr><td> <em>Grading Link: </em> <a rel="noreferrer noopener" href="https://learn.ethereallab.app/homework/IT114-005-F23/it114-chatroom-milestone4/grade/msh52" target="_blank">Grading</a></td></tr></table>
 <table><tr><td> <em>Instructions: </em> <p>Implement the features from Milestone3 from the proposal document:&nbsp;&nbsp;<a href="https://docs.google.com/document/d/1ONmvEvel97GTFPGfVwwQC96xSsobbSbk56145XizQG4/view">https://docs.google.com/document/d/1ONmvEvel97GTFPGfVwwQC96xSsobbSbk56145XizQG4/view</a></p>
 </td></tr></table>
@@ -29,7 +29,7 @@
 <tr><td><img width="768px" src="https://firebasestorage.googleapis.com/v0/b/learn-e1de9.appspot.com/o/assignments%2Fmsh52%2F2023-12-08T09.41.12image.png.webp?alt=media&token=5a8a3f34-bcc8-462d-ba0c-aefc5a129b60"/></td></tr>
 <tr><td> <em>Caption:</em> <p>showing that since user shah exported his chat history its only his chat<br>histroy not the other client <br></p>
 </td></tr>
-<tr><td><img width="768px" src="https://firebasestorage.googleapis.com/v0/b/learn-e1de9.appspot.com/o/assignments%2Fmsh52%2F2023-12-08T09.47.01image.png.webp?alt=media&token=18df7d13-9114-4e7e-bd41-4ab71f0889d5"/></td></tr>
+<tr><td><img width="768px" src="https://firebasestorage.googleapis.com/v0/b/learn-e1de9.appspot.com/o/assignments%2Fmsh52%2F2023-12-08T11.06.11image.png.webp?alt=media&token=06e7dd56-1254-4eb7-bc83-ff4d3807c3fe"/></td></tr>
 <tr><td> <em>Caption:</em> <p>showing the code snippet <br></p>
 </td></tr>
 <tr><td><img width="768px" src="https://firebasestorage.googleapis.com/v0/b/learn-e1de9.appspot.com/o/assignments%2Fmsh52%2F2023-12-08T10.56.21image.png.webp?alt=media&token=86bd7337-c847-4d10-93dd-9c64a623376b"/></td></tr>
@@ -124,6 +124,9 @@
 </td></tr>
 <tr><td><img width="768px" src="https://firebasestorage.googleapis.com/v0/b/learn-e1de9.appspot.com/o/assignments%2Fmsh52%2F2023-12-08T10.31.32image.png.webp?alt=media&token=d6f6a6d9-43f6-450f-95ea-e3ae60cba040"/></td></tr>
 <tr><td> <em>Caption:</em> <p>in the sc you can see since user noyon muted user shah, noyon<br>is not receiving any message from shah, therefore the last person for user<br>noyon to send message is abul and abul is highlighted for him. and<br>as for the shah and abul, shah is the last person to send<br>message therefore for both of them user shah is highlighted since he is<br>the last person to send message.<br></p>
+</td></tr>
+<tr><td><img width="768px" src="https://firebasestorage.googleapis.com/v0/b/learn-e1de9.appspot.com/o/assignments%2Fmsh52%2F2023-12-08T11.08.29image.png.webp?alt=media&token=6d61e5d1-81e0-4785-b16d-943940ee8985"/></td></tr>
+<tr><td> <em>Caption:</em> <p>showing sc of the code snippet <br></p>
 </td></tr>
 </table></td></tr>
 <tr><td> <em>Sub-Task 3: </em> Briefly explain how you implemented this</td></tr>
